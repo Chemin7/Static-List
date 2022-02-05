@@ -1,0 +1,52 @@
+# depslib dependency file v1.0
+1643780851 source:c:\users\user\onedrive\escuela\ed1\act 3\static list\main.cpp
+	<iostream>
+	<string>
+	"list.h"
+
+1643780868 source:c:\users\user\onedrive\escuela\ed1\act 3\static list\list.cpp
+	<iostream>
+	<string>
+	"list.h"
+
+1643780785 c:\users\user\onedrive\escuela\ed1\act 3\static list\list.h
+	<string>
+
+1644011228 source:c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 3\static list\list.cpp
+	<iostream>
+	<string>
+	"list.h"
+	"song.h"
+
+1644095491 c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 3\static list\list.h
+	<string>
+	<iomanip>
+	<exception>
+	"song.h"
+
+1644087035 source:c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 3\static list\main.cpp
+	<iostream>
+	<string>
+	"song.h"
+	"list.h"
+	"userinterface.h"
+
+1644026117 c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 3\static list\song.h
+	<iostream>
+	<string>
+
+1644026138 source:c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 3\static list\song.cpp
+	"song.h"
+	<iomanip>
+
+1644095062 source:c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 3\static list\userinterface.cpp
+	<iostream>
+	<string>
+	"userinterface.h"
+	"song.h"
+	"list.h"
+
+1644084423 c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 3\static list\userinterface.h
+	"song.h"
+	"list.h"
+
