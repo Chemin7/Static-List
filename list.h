@@ -3,7 +3,7 @@
 #include <string>
 #include <iomanip>
 #include <exception>
-
+#include <functional>
 #include "song.h"
 
 class ListException : public std::exception {
@@ -28,9 +28,12 @@ class List {
         T arr[ARRAYSIZE];
         int lastIndex;
 
+        void swapData(T&,T&);
+
     public:
         List();
 
+        T getElem(int);
         bool blank() const;
         bool full() const;
         void add(T&,const int);
@@ -42,7 +45,15 @@ class List {
         T retrieve(int);
         void deleteAll();
 
-        void print();
+        std::string toString();
+
+        int findDataLinear( T&, std::function<int(T&,T& )>);
+        int findDataBinary(T&, std::function<int(T&,T& )>);
+
+        void sortDataBubble();
+        void sortDataInsert();
+        void sortDataSelect();
+        void sortDataShell();
 
 
 
@@ -120,11 +131,11 @@ template <class T, int ARRAYSIZE>
 T List<T,ARRAYSIZE>::retrieve(int index) {
 
     if(blank()) {
-    throw ListException("No hay elementos que recuperar, retrieve");
+        throw ListException("No hay elementos que recuperar, retrieve");
         }
-    else if(index > lastIndex || index < 0){
+    else if(index > lastIndex || index < 0) {
         throw ListException("No hay elementos en esa posicion, retrieve");
-    }
+        }
     else {
         for(int i = 0; i<=lastIndex; i++) {
             if(index == i) {
@@ -136,29 +147,174 @@ T List<T,ARRAYSIZE>::retrieve(int index) {
 
 template <class T, int ARRAYSIZE>
 void List<T,ARRAYSIZE>::deleteAll() {
-    if(!blank()){
-    for(int i = lastIndex; i >= 0; i--) {
-        arr[i] = arr[i+1];
+    if(!blank()) {
+        for(int i = lastIndex; i >= 0; i--) {
+            arr[i] = arr[i+1];
+            }
+        lastIndex=-1;
         }
-    lastIndex=-1;
     }
-}
 
 
 template <class T, int ARRAYSIZE>
-void List<T,ARRAYSIZE>::print() {
-    cout<<left;
-    cout<<setw(17)<<"NOMBRE";
-    cout<<setw(17)<<"AUTOR";
-    cout<<setw(17)<<"RANKING";
-    cout<<endl;
+T List<T,ARRAYSIZE>::getElem(int pos) {
+    return arr[pos];
+    }
 
 
-    for(int i = 0; i < lastIndex+1; i++) {
-        cout<<arr[i]<<endl;
+template <class T, int ARRAYSIZE>
+string List<T,ARRAYSIZE>::toString() {
+    string txt,temp;
+
+    int i(0);
+
+    temp="Nombre";
+    temp.resize(20,' ');
+    txt+=temp;
+
+    temp="| Autor";
+    temp.resize(20,' ');
+    txt+=temp;
+
+    temp="| Interprete";
+    temp.resize(20,' ');
+    txt+=temp;
+
+    temp="| Nombre de archivo\n";
+    temp.resize(20,' ');
+    txt+=temp;
+
+    while(i <= last()) {
+        txt += arr[i].toString();
+        txt+= "\n";
+        i++;
         }
 
+    return txt;
+    }
+
+template <class T, int ARRAYSIZE>
+int List<T,ARRAYSIZE>::findDataLinear( T& e, function<int(T&,T& )> cmp) {
+    int i(0);
+
+    while(i <= lastIndex) {
+        if(cmp(arr[i],e)== 0)
+            return i;
+
+        i++;
+
+        }
+    return -1;
+    }
+
+template <class T, int ARRAYSIZE>
+int List<T,ARRAYSIZE>::findDataBinary(T& e, function<int(T&,T& )> cmp) {
+    int i(0), j(lastIndex),m;
+
+    while(i<= j) {
+        m = (i+j)/2;
+
+        if(cmp(arr[m],e) == 0)
+            return m;
+        if(cmp(arr[m],e) < 0)
+            j=m-1;
+        else
+            i=m+1;
+        }
+    return -1;
+    }
+
+template <class T, int ARRAYSIZE>
+void List<T,ARRAYSIZE>::swapData(T& a, T& b) {
+    T aux(a);
+
+    a = b;
+    b=aux;
+    }
+
+template <class T, int ARRAYSIZE>
+void List<T,ARRAYSIZE>::sortDataBubble() {
+    int i(lastIndex),j;
+    bool flag;
+
+    do {
+        flag = false;
+        j=0;
+
+        while(j<i) {
+            if(arr[j]>arr[j+1]) {
+                swapData(arr[j],arr[j+1]);
+                flag= true;
+                }
+            j++;
+            }
+        i--;
+        }
+    while(flag);
+    }
+
+template <class T, int ARRAYSIZE>
+void List<T,ARRAYSIZE>::sortDataInsert() {
+    int i(1),j;
+    T aux;
+
+    while( i <= lastIndex) {
+        aux = arr[i];
+        j=i;
+
+        while(j > 0 and aux < arr[j-1]) {
+            arr[j]=arr[j-1];
+            j--;
+            }
+        if(i!=j)
+            arr[j]=aux;
+
+        i++;
+        }
+    }
+
+template <class T, int ARRAYSIZE>
+void List<T,ARRAYSIZE>::sortDataSelect() {
+    int i(0),j,m;
+
+    while(i<last) {
+        m=i;
+        j=i+1;
+        while(j <= last) {
+            if(arr[j] < arr[m])
+                m = j;
+
+            j++;
+
+            }
+        if(i!=m)
+            swapData(arr[i],arr[m]);
+
+            i++;
+        }
+    }
+template <class T, int ARRAYSIZE>
+void List<T,ARRAYSIZE>::sortDataShell() {
+    float factor(0.5);
+
+    int dif((lastIndex+1)*factor),i,j;
+
+    while(dif > 0) {
+          i=dif;
+
+        while(i<=lastIndex) {
+          j=i;
+
+            while(j>=dif and arr[j-dif] > arr[j]) {
+                swapData(arr[j-dif],arr[j]);
+
+                j-=dif;
+                }
+            }
+            dif*=factor;
+        }
 
     }
+
 
 #endif // LIST_H_INCLUDED

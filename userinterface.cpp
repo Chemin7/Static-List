@@ -1,9 +1,10 @@
+#include "song.h"
 #include <iostream>
 #include <string>
+#include <functional>
 
 #include "userinterface.h"
 
-#include "song.h"
 #include "list.h"
 
 using namespace std;
@@ -25,7 +26,9 @@ void UserInterface::mainMenu() {
         cout<<"3) Obten una cancion"<<endl;
         cout<<"4) Borrar lista"<<endl;
         cout<<"5) Mostrar lista"<<endl;
-        cout<<"6) Salir"<<endl;
+        cout<<"6) Encontrar elemento "<<endl;
+        cout<<"7) Salir"<<endl;
+        cout<<"Seleccione una opcion: ";
         cin>>opc;
 
         switch(opc) {
@@ -42,19 +45,22 @@ void UserInterface::mainMenu() {
                 deleteAllElems();
                 break;
             case 5:
-                myList->print();
+                cout<<myList->toString();
                 break;
             case 6:
+                findElem();
+                break;
+            case 7:
                 cout<<"Saliendo..."<<endl;
                 j++;
                 break;
             default:
                 cout<<"Opcion invalida"<<endl;
             }
-            if(j==0){
-        cout<<"si quieres continuar presiona 1: ";
-        cin>>i;
-        cout<<endl;
+        if(j==0) {
+            cout<<"si quieres continuar presiona 1: ";
+            cin>>i;
+            cout<<endl;
             }
         system("cls");
         }
@@ -63,33 +69,34 @@ void UserInterface::mainMenu() {
     }
 
 void UserInterface::insertElem() {
-    string n,a;
-    unsigned int r;
-    int i,index;
+    string n,a,in,mp3;
+    int index;
+    char opc;
 
-    i=0;
     do {
         cout<<"Ingrese el nombre de la cancion: ";
         cin.ignore();
         getline(cin,n);
         cout<<"Ingrese el autor de la cancion: ";
         getline(cin,a);
-        cout<<"Ingrese el ranking de la cancion: ";
-        cin>>r;
+        cout<<"Ingrese el interprete de la cancion: ";
+        getline(cin,in);
+        cout<<"Ingrese el nombre del archivo mp3: ";
+        getline(cin,mp3);
         cout<<"Ingresa la posicion en donde lo quire agregar: ";
         cin>>index;
-        Song s(a,n,r);
+        Song s(a,n,in,mp3);
         myList->add(s,index);
         cout<<endl;
-        myList->print();
-        cout<<endl;
 
-        cout<<"Si quires agregar otro elemento presiona 1: ";
-        cin>>i;
-        cout<<endl;
 
+        do {
+            cout<<"Continuar agregado elementos: [S]i o [N]o: "<<endl;
+            cin>>opc;
+            }
+        while( !(opc == 's' || opc == 'n'));
         }
-    while(i==1);
+    while(opc== 's');
 
 
 
@@ -101,7 +108,7 @@ void UserInterface::removeElem() {
     cin>>index;
 
     myList->takeOff(index);
-    myList->print();
+    myList->toString();
     }
 
 void UserInterface::getElem() {
@@ -110,13 +117,115 @@ void UserInterface::getElem() {
     cin>>index;
     cout<<endl;
     cout<<"Cancion obtenida: "<<endl;
-    cout<<myList->retrieve(index)<<endl;
+    cout<<myList->toString()<<endl;
 
     }
 
 void UserInterface::deleteAllElems() {
-        myList->deleteAll();
-        cout<<"Lista vacia"<<endl;
+    myList->deleteAll();
+    cout<<"Lista vacia"<<endl;
     }
 
+void UserInterface::linearSearch(char opc) {
+    Song mySong;
+    string str, findBy;
+    int pos;
+    if(opc == 'c')
+        findBy="cancion";
+    else
+        findBy="interprete";
+
+    cout<<"Introduce el elemento a buscar por "<<findBy<<": "<<endl;
+    cin.ignore();
+    getline(cin,str);
+
+
+
+    if(opc == 'c') {
+        mySong.setName(str);
+        pos = myList->findDataLinear(mySong,Song::compareByName);
+        }else {
+        mySong.setInterpreter(str);
+        pos =  myList->findDataLinear(mySong,Song::compareByInterpreter);
+        }
+    if(pos == -1) {
+        cout<<"Elemento en la lista no encontrado. "<<endl;
+        }
+    else {
+        cout<<"Elemento encontrado en la pos "<<pos<<": "<<endl;
+        cout<<myList->getElem(pos).toString()<<endl;;
+        }
+
+
+    }
+
+
+ void UserInterface::binarySearch(char opc) {
+    Song mySong;
+    string str, findBy;
+    int pos;
+    if(opc == 'c')
+        findBy="cancion";
+    else
+        findBy="interprete";
+
+    cout<<"Introduce el elemento a buscar por "<<findBy<<": "<<endl;
+    cin.ignore();
+    getline(cin,str);
+
+
+
+    if(opc == 'c') {
+        mySong.setName(str);
+        pos = myList->findDataBinary(mySong,&mySong.compareByName);
+        }
+
+    else {
+        mySong.setInterpreter(str);
+        pos =  myList->findDataBinary(mySong,&mySong.compareByInterpreter);
+        }
+    if(pos == -1) {
+        cout<<"Elemento en la lista no encontrado. "<<endl;
+        }
+    else {
+        cout<<"Elemento encontrado en la pos "<<pos<<": "<<endl;
+        cout<<myList->getElem(pos).toString()<<endl;;
+        }
+
+
+    }
+
+
+void UserInterface::findElem() {
+    char opc;
+    int method;
+    do {
+        cout<<"Encontrar elemento por nombre de : "<<endl;
+        cout<<"[C]ancion"<<endl;
+        cout<<"[I]nterpete"<<endl;
+        cout<<"Seleccione una opcion :";
+        cin>>opc;
+        }
+    while( !(opc == 'c' || opc == 'i') );
+
+
+    do {
+        cout<<"Metodo a usar"<<endl;
+        cout<<"1) Lineal"<<endl;
+        cout<<"2) Binario"<<endl;
+        cout<<"Seleccione una opcion :" ;
+        cin>>method;
+        }
+    while( !(method == 1 || method == 2) );
+
+
+    switch(method) {
+        case 1:
+            linearSearch(opc);
+            break;
+        case 2:
+            binarySearch(opc);
+            break;
+        }
+    }
 

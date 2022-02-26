@@ -8,26 +8,40 @@ class Song{
 private:
     std::string name;
     std::string author ;
-    unsigned int ranking;
+    std::string interpreter ;
+    std::string mp3;
+
+    void copyAll(Song&);
 
 public:
     Song();
-    Song(std::string,std::string,unsigned int);
+    Song(std::string,std::string,std::string,std::string);
+
+    Song(Song&);
+    Song operator = (Song&);
 
     std::string getName();
     std::string getAuthor();
-    unsigned int getRanking();
+    std::string getInterpreter();
 
     void setName(const std::string);
     void setAuthor(const std::string );
-    void setRanking(const unsigned int);
+    void setInterpreter(const std::string );
+    void setMp3(const std::string);
 
 
+    std::string toString();
 
-    bool operator == (Song);
-    bool operator < (Song);
+    bool operator == (Song&);
+    bool operator != (Song&);
+    bool operator > (Song&);
+    bool operator >= (Song&);
+    bool operator < (Song&);
+    bool operator <= (Song&);
 
-    friend std::ostream& operator <<(std::ostream& out,const Song &s);
+    static int compareByName(Song&,Song&);
+    static int compareByInterpreter(Song&,Song&);
+
 
 };
 

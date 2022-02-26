@@ -24,7 +24,7 @@
 	<exception>
 	"song.h"
 
-1644087035 source:c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 3\static list\main.cpp
+1644095633 source:c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 3\static list\main.cpp
 	<iostream>
 	<string>
 	"song.h"
@@ -39,7 +39,7 @@
 	"song.h"
 	<iomanip>
 
-1644095062 source:c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 3\static list\userinterface.cpp
+1644126991 source:c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 3\static list\userinterface.cpp
 	<iostream>
 	<string>
 	"userinterface.h"
@@ -48,5 +48,70 @@
 
 1644084423 c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 3\static list\userinterface.h
 	"song.h"
+	"list.h"
+
+1644095633 source:c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 5\static list\main.cpp
+	<iostream>
+	<string>
+	"song.h"
+	"list.h"
+	"userinterface.h"
+
+1645241163 c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 5\static list\song.h
+	<iostream>
+	<string>
+
+1645237447 c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 5\static list\list.h
+	<string>
+	<iomanip>
+	<exception>
+	"song.h"
+
+1644084423 c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 5\static list\userinterface.h
+	"song.h"
+	"list.h"
+
+1645237973 source:c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 5\static list\userinterface.cpp
+	<iostream>
+	<string>
+	"userinterface.h"
+	"song.h"
+	"list.h"
+
+1645237238 source:c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 5\static list\song.cpp
+	"song.h"
+	<iomanip>
+
+1645898993 source:c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 5\search methods\main.cpp
+	<iostream>
+	<string>
+	"song.h"
+	"list.h"
+	"userinterface.h"
+
+1645898897 c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 5\search methods\song.h
+	<iostream>
+	<string>
+
+1645898489 c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 5\search methods\list.h
+	<string>
+	<iomanip>
+	<exception>
+	<functional>
+	"song.h"
+
+1645376905 c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 5\search methods\userinterface.h
+	"song.h"
+	"list.h"
+
+1645898969 source:c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 5\search methods\song.cpp
+	"song.h"
+
+1645663096 source:c:\users\user\onedrive - universidad de guadalajara\2do sem\ed1\act 5\search methods\userinterface.cpp
+	"song.h"
+	<iostream>
+	<string>
+	<functional>
+	"userinterface.h"
 	"list.h"
 

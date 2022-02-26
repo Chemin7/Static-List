@@ -13,6 +13,12 @@ private:
     void removeElem();
     void getElem();
     void deleteAllElems();
+    void inputFindElem();
+    void findElem();
+    void linearSearch(char);
+    void binarySearch(char opc);
+
+
 
 
 public:
