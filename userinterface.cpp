@@ -27,7 +27,8 @@ void UserInterface::mainMenu() {
         cout<<"4) Borrar lista"<<endl;
         cout<<"5) Mostrar lista"<<endl;
         cout<<"6) Encontrar elemento "<<endl;
-        cout<<"7) Salir"<<endl;
+        cout<<"7) Ordenar elementos "<<endl;
+        cout<<"8) Salir"<<endl;
         cout<<"Seleccione una opcion: ";
         cin>>opc;
 
@@ -51,6 +52,9 @@ void UserInterface::mainMenu() {
                 findElem();
                 break;
             case 7:
+                sortElements();
+                break;
+            case 8:
                 cout<<"Saliendo..."<<endl;
                 j++;
                 break;
@@ -74,8 +78,8 @@ void UserInterface::insertElem() {
     char opc;
 
     do {
-        cout<<"Ingrese el nombre de la cancion: ";
         cin.ignore();
+        cout<<"Ingrese el nombre de la cancion: ";
         getline(cin,n);
         cout<<"Ingrese el autor de la cancion: ";
         getline(cin,a);
@@ -85,7 +89,12 @@ void UserInterface::insertElem() {
         getline(cin,mp3);
         cout<<"Ingresa la posicion en donde lo quire agregar: ";
         cin>>index;
-        Song s(a,n,in,mp3);
+        Song s;
+        s.setName(n);
+        s.setAuthor(a);
+        s.setInterpreter(in);
+        s.setMp3(mp3);
+
         myList->add(s,index);
         cout<<endl;
 
@@ -144,7 +153,8 @@ void UserInterface::linearSearch(char opc) {
     if(opc == 'c') {
         mySong.setName(str);
         pos = myList->findDataLinear(mySong,Song::compareByName);
-        }else {
+        }
+    else {
         mySong.setInterpreter(str);
         pos =  myList->findDataLinear(mySong,Song::compareByInterpreter);
         }
@@ -160,7 +170,7 @@ void UserInterface::linearSearch(char opc) {
     }
 
 
- void UserInterface::binarySearch(char opc) {
+void UserInterface::binarySearch(char opc) {
     Song mySong;
     string str, findBy;
     int pos;
@@ -227,5 +237,57 @@ void UserInterface::findElem() {
             binarySearch(opc);
             break;
         }
+    }
+
+void UserInterface::sortElements() {
+    int opc1,opc2;
+    cout<<"Ordenar por :\n"
+        <<"1) Nombre\n"
+        <<"2) Interprete\n"
+        <<"Selecciona una opcion: ";
+    cin>>opc1;
+
+    cout<<"Metodo a usar: \n"
+        <<"1) Bubble\n"
+        <<"2) Insert\n"
+        <<"3) Select\n"
+        <<"4) Shell\n"
+        <<"Seleccione una opcion: ";
+    cin>>opc2;
+
+    if(opc1 == 1) {
+        switch(opc2) {
+            case 1:
+                myList->sortDataBubble(Song::compareByName);
+                break;
+            case 2:
+                myList->sortDataInsert(Song::compareByName);
+                break;
+            case 3:
+                myList->sortDataSelect(Song::compareByName);
+                break;
+            case 4:
+                myList->sortDataShell(Song::compareByName);
+                break;
+            }
+        }
+    else if(opc1 == 2) {
+        switch(opc2) {
+            case 1:
+                myList->sortDataBubble(Song::compareByInterpreter);
+                break;
+            case 2:
+                myList->sortDataInsert(Song::compareByInterpreter);
+                break;
+            case 3:
+                myList->sortDataSelect(Song::compareByInterpreter);
+                break;
+            case 4:
+                myList->sortDataShell(Song::compareByInterpreter);
+                break;
+            }
+        }
+
+    cout<<myList->toString()<<endl;
     }
 

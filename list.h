@@ -55,6 +55,11 @@ class List {
         void sortDataSelect();
         void sortDataShell();
 
+        void sortDataBubble(std::function<int(T&,T&)>);
+        void sortDataInsert(std::function<int(T&,T&)>);
+        void sortDataSelect(std::function<int(T&,T&)>);
+        void sortDataShell(std::function<int(T&,T&)>);
+
 
 
     };
@@ -290,7 +295,7 @@ void List<T,ARRAYSIZE>::sortDataSelect() {
         if(i!=m)
             swapData(arr[i],arr[m]);
 
-            i++;
+        i++;
         }
     }
 template <class T, int ARRAYSIZE>
@@ -300,10 +305,10 @@ void List<T,ARRAYSIZE>::sortDataShell() {
     int dif((lastIndex+1)*factor),i,j;
 
     while(dif > 0) {
-          i=dif;
+        i=dif;
 
         while(i<=lastIndex) {
-          j=i;
+            j=i;
 
             while(j>=dif and arr[j-dif] > arr[j]) {
                 swapData(arr[j-dif],arr[j]);
@@ -311,7 +316,93 @@ void List<T,ARRAYSIZE>::sortDataShell() {
                 j-=dif;
                 }
             }
-            dif*=factor;
+        dif*=factor;
+        }
+
+    }
+
+///Explicit search methods
+template <class T, int ARRAYSIZE>
+void List<T,ARRAYSIZE>::sortDataBubble(function<int(T&,T&)> cmp) {
+    int i(lastIndex),j;
+    bool flag;
+
+    do {
+        flag = false;
+        j=0;
+
+        while(j<i) {
+            if(cmp(arr[j],arr[j+1])>0) {
+                swapData(arr[j],arr[j+1]);
+                flag= true;
+                }
+            j++;
+            }
+        i--;
+        }
+    while(flag);
+    }
+
+template <class T, int ARRAYSIZE>
+void List<T,ARRAYSIZE>::sortDataInsert(function<int(T&,T&)> cmp) {
+    int i(1),j;
+    T aux;
+
+    while( i <= lastIndex) {
+        aux = arr[i];
+        j=i;
+        //aux < arr
+        while(j > 0 and cmp(aux,arr[j-1]) < 0) {
+            arr[j]=arr[j-1];
+            j--;
+            }
+        if(i!=j)
+            arr[j]=aux;
+
+        i++;
+        }
+    }
+
+template <class T, int ARRAYSIZE>
+void List<T,ARRAYSIZE>::sortDataSelect(function<int(T&,T&)> cmp) {
+    int i(0),j,m;
+
+    while(i<lastIndex) {
+        m=i;
+        j=i+1;
+        while(j <= lastIndex) {
+            // arr j < arr m
+            if(cmp(arr[j],arr[m])<0)
+                m = j;
+
+            j++;
+
+            }
+        if(i!=m)
+            swapData(arr[i],arr[m]);
+
+        i++;
+        }
+    }
+template <class T, int ARRAYSIZE>
+void List<T,ARRAYSIZE>::sortDataShell(function<int(T&,T&)> cmp) {
+    float factor(0.5);
+
+    int dif((lastIndex+1)*factor),i,j;
+
+    while(dif > 0) {
+        i=dif;
+
+        while(i<=lastIndex) {
+            j=i;
+
+            while(j>=dif and cmp(arr[j-dif],arr[j]) > 0) {
+                swapData(arr[j-dif],arr[j]);
+
+                j-=dif;
+                }
+            }
+        dif*=factor;
         }
 
     }
