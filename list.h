@@ -6,6 +6,8 @@
 #include <functional>
 #include "song.h"
 
+#include <iostream>
+
 class ListException : public std::exception {
     private:
         std::string msg;
@@ -351,7 +353,6 @@ void List<T,ARRAYSIZE>::sortDataInsert(function<int(T&,T&)> cmp) {
     while( i <= lastIndex) {
         aux = arr[i];
         j=i;
-        //aux < arr
         while(j > 0 and cmp(aux,arr[j-1]) < 0) {
             arr[j]=arr[j-1];
             j--;
@@ -371,7 +372,6 @@ void List<T,ARRAYSIZE>::sortDataSelect(function<int(T&,T&)> cmp) {
         m=i;
         j=i+1;
         while(j <= lastIndex) {
-            // arr j < arr m
             if(cmp(arr[j],arr[m])<0)
                 m = j;
 
@@ -401,8 +401,9 @@ void List<T,ARRAYSIZE>::sortDataShell(function<int(T&,T&)> cmp) {
 
                 j-=dif;
                 }
+                i++;
             }
-        dif*=factor;
+            dif*=factor;
         }
 
     }
