@@ -30,7 +30,12 @@ class List {
         T arr[ARRAYSIZE];
         int lastIndex;
 
+        void copyAll(List&);
+
         void swapData(T&,T&);
+        void sortDataMerge(const int&,const int&);
+        void sortDataQuick(const int&,const int&);
+
 
     public:
         List();
@@ -47,6 +52,10 @@ class List {
         T retrieve(int);
         void deleteAll();
 
+        bool isSorted();
+
+        //List& operator = (List&);
+
         std::string toString();
 
         int findDataLinear( T&, std::function<int(T&,T& )>);
@@ -56,6 +65,9 @@ class List {
         void sortDataInsert();
         void sortDataSelect();
         void sortDataShell();
+        void sortDataMerge();
+        void sortDataQuick();
+
 
         void sortDataBubble(std::function<int(T&,T&)>);
         void sortDataInsert(std::function<int(T&,T&)>);
@@ -175,25 +187,11 @@ string List<T,ARRAYSIZE>::toString() {
 
     int i(0);
 
-    temp="Nombre";
-    temp.resize(20,' ');
-    txt+=temp;
 
-    temp="| Autor";
-    temp.resize(20,' ');
-    txt+=temp;
-
-    temp="| Interprete";
-    temp.resize(20,' ');
-    txt+=temp;
-
-    temp="| Nombre de archivo\n";
-    temp.resize(20,' ');
-    txt+=temp;
 
     while(i <= last()) {
-        txt += arr[i].toString();
-        txt+= "\n";
+        txt += to_string(arr[i]);
+        txt+= " , ";
         i++;
         }
 
@@ -284,10 +282,10 @@ template <class T, int ARRAYSIZE>
 void List<T,ARRAYSIZE>::sortDataSelect() {
     int i(0),j,m;
 
-    while(i<last) {
+    while(i<lastIndex) {
         m=i;
         j=i+1;
-        while(j <= last) {
+        while(j <= lastIndex) {
             if(arr[j] < arr[m])
                 m = j;
 
@@ -300,6 +298,7 @@ void List<T,ARRAYSIZE>::sortDataSelect() {
         i++;
         }
     }
+
 template <class T, int ARRAYSIZE>
 void List<T,ARRAYSIZE>::sortDataShell() {
     float factor(0.5);
@@ -317,11 +316,98 @@ void List<T,ARRAYSIZE>::sortDataShell() {
 
                 j-=dif;
                 }
+            i++;
             }
         dif*=factor;
         }
 
     }
+
+template <class T, int ARRAYSIZE>
+void List<T,ARRAYSIZE>::sortDataMerge() {
+
+    sortDataMerge(0,lastIndex);
+
+    }
+
+template <class T, int ARRAYSIZE>
+void List<T,ARRAYSIZE>::sortDataMerge(const int& leftEdge,const int& rightEdge ) {
+
+    if(leftEdge >= rightEdge)
+        return;
+
+    int m = ((leftEdge + rightEdge) / 2);
+
+
+
+    sortDataMerge(leftEdge,m);
+    sortDataMerge(m+1,rightEdge);
+
+    static T aux[ARRAYSIZE];
+    for(int n(leftEdge); n<= rightEdge; n++) {
+
+        aux[n]=arr[n];
+        }
+
+    int i(leftEdge),j(m+1),x(leftEdge);
+
+    while(i<=m and j<= rightEdge) {
+        while(i<=m and aux[i] <= aux[j]) {
+            arr[x++] = aux[i++];
+        }
+        if(i<= m) {
+            while(j<=rightEdge and aux[j] <= aux[i]) {
+                    arr[x++]=aux[j++];
+                    }
+                }
+            }
+
+
+
+
+    while(i<=m) {
+
+        arr[x++]=aux[i++];
+        }
+
+    while(j<=rightEdge) {
+
+        arr[x++] = aux[j++];
+        }
+
+    }
+
+template <class T, int ARRAYSIZE>
+void List<T,ARRAYSIZE>::sortDataQuick() {
+    sortDataQuick(0,lastIndex);
+}
+
+template <class T, int ARRAYSIZE>
+void List<T,ARRAYSIZE>::sortDataQuick(const int& leftEdge,const int& rightEdge ) {
+
+    if(leftEdge >= rightEdge)
+        return;
+
+    int i(leftEdge),j(rightEdge);
+
+    while(i<j){
+        while(i<j and arr[i] <= arr[rightEdge])
+            i++;
+
+        while(i<j and arr[j] >= arr[rightEdge])
+            j--;
+        if(i!= j)
+            swapData(arr[i],arr[j]);
+    }
+
+    if(i!= rightEdge)
+        swapData(arr[i],arr[rightEdge]);
+
+    sortDataQuick(leftEdge,i-1);
+    sortDataQuick(i+1,rightEdge);
+}
+
+
 
 ///Explicit search methods
 template <class T, int ARRAYSIZE>
@@ -384,6 +470,8 @@ void List<T,ARRAYSIZE>::sortDataSelect(function<int(T&,T&)> cmp) {
         i++;
         }
     }
+
+
 template <class T, int ARRAYSIZE>
 void List<T,ARRAYSIZE>::sortDataShell(function<int(T&,T&)> cmp) {
     float factor(0.5);
@@ -401,12 +489,50 @@ void List<T,ARRAYSIZE>::sortDataShell(function<int(T&,T&)> cmp) {
 
                 j-=dif;
                 }
-                i++;
+            i++;
             }
-            dif*=factor;
+        dif*=factor;
         }
 
     }
+
+
+
+
+template <class T, int ARRAYSIZE>
+void List<T,ARRAYSIZE>::copyAll(List<T,ARRAYSIZE>& l) {
+    int i(0);
+    while(i <=  l.lastIndex) {
+        arr[i]= l.arr[i];
+        i++;
+        }
+
+
+    }
+
+template <class T, int ARRAYSIZE>
+bool List<T,ARRAYSIZE>::isSorted(){
+
+    int i(0);
+    while(i<100000){
+        if(arr[i] > arr[i+1])
+            return false;
+        i++;
+    }
+
+
+    return true;
+
+
+}
+
+/*
+template <class T, int ARRAYSIZE>
+List<T,ARRAYSIZE>& List<T,ARRAYSIZE>::operator=(List<T,ARRAYSIZE>& l)
+{
+    copyAll(l);
+    return *this;
+}*/
 
 
 #endif // LIST_H_INCLUDED

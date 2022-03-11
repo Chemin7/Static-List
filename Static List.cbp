@@ -34,8 +34,6 @@
 		</Compiler>
 		<Unit filename="list.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="song.cpp" />
-		<Unit filename="song.h" />
 		<Unit filename="userinterface.cpp" />
 		<Unit filename="userinterface.h" />
 		<Extensions>
